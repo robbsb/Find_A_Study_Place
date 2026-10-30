@@ -477,6 +477,22 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
       <rect x="82" y="50" width="16" height="14" fill="#2a2a2a" opacity=".55"/>
       <circle cx="22" cy="54" r="14" fill="#5f9a4e"/><circle cx="160" cy="52" r="16" fill="#6aa457"/><rect x="21" y="60" width="3" height="8" fill="#6b4f2a"/><rect x="159" y="60" width="3" height="8" fill="#6b4f2a"/></svg>`;
   }
+  function areaBuildingRow(all, abld, isLive){
+    const names = [...new Set(all.map(abld))].sort((a, b) => (S.fav.has(b) - S.fav.has(a)) || natural(a, b));
+    if(!names.length) return "";
+    const cards = names.map(b => {
+      const as = all.filter(a => abld(a) === b), live = as.some(isLive);
+      const pc = live ? Math.round(as.reduce((t, a) => t + areaPct(a), 0) / as.length) : 0;
+      const lv = pc >= 90 ? "full" : pc >= 60 ? "mid" : "free", num = b.replace("Building ", "");
+      return `<div class="bcard${S.asel === b ? " on" : ""}">
+        <button class="bpick" data-asel="${esc(b)}" aria-label="Show study areas in ${esc(b)}">
+          <span class="bimg">${buildingArt(b)}<span class="bnum">${esc(num)}</span></span>
+          <span class="bbody"><b>${esc(/^Building/.test(b) ? b : "Building " + b)}</b><small>${as.length} study area${as.length > 1 ? "s" : ""}</small><small>${live ? `${pc}% occupied` : "Listed by Polimi"}</small></span>
+          <span class="bbar">${live ? `<i style="width:${pc}%;background:var(--${lv})"></i>` : ""}</span></button>
+        <button class="favb bstar" data-fav="${esc(b)}" aria-pressed="${S.fav.has(b)}" aria-label="${S.fav.has(b) ? "Remove from" : "Add to"} favourite buildings">${S.fav.has(b) ? "★" : "☆"}</button></div>`;
+    }).join("");
+    return `<div class="brow-h">Buildings</div><div class="brow">${cards}</div>`;
+  }
   function buildingRow(hasSpace){
     const isLiveB = b => classrooms.some(r => r.bld === b && r.live);
     const names = [...new Set(classrooms.map(r => r.bld))]
@@ -545,8 +561,11 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
         <span class="mini"><button class="bookbtn" data-aff="${l.id}">Book a group room</button></span></div>`; }).join("") : none) +
         (list.length ? "" : `<div class="info">No live library data for this campus yet.</div>`);
     } else {
-      const isLive = a => !!a.live || S.future; const list = areas.filter(a => a.k === S.campus && match(a.name, a.place)).sort((x, y) => { const fb = a => S.fav.has(a.name.split(" · ")[0]); return (fb(y) - fb(x)) || (isLive(y) - isLive(x)); });
-      body = (list.length ? list.map(a => { const v = S.exam ? a.examLvl : a.lvl; const live = !!a.live || S.future; const ap = areaPct(a); const lvA = ap >= 90 ? "full" : ap >= 60 ? "mid" : "free";
+      const isLive = a => !!a.live || S.future; const abld = a => a.name.split(" · ")[0];
+      const all = areas.filter(a => a.k === S.campus);
+      const list = all.filter(a => (!S.asel || abld(a) === S.asel) && match(a.name, a.place)).sort((x, y) => { const fb = a => S.fav.has(a.name.split(" · ")[0]); return (fb(y) - fb(x)) || (isLive(y) - isLive(x)); });
+      body = areaBuildingRow(all, abld, isLive) + (S.asel ? `<div class="bsel"><span>Showing ${esc(S.asel)}</span><button class="bx" data-asel="">Show all ✕</button></div>` : "") +
+        (list.length ? list.map(a => { const v = S.exam ? a.examLvl : a.lvl; const live = !!a.live || S.future; const ap = areaPct(a); const lvA = ap >= 90 ? "full" : ap >= 60 ? "mid" : "free";
         if(live) return `<div class="row r3"><span><span class="n">${esc(a.name)}</span><span class="m">${esc(a.place)}</span></span><span class="st s-${lvA}">${ap}% occupied</span>${infoBtn("area",a.id)}
         <div class="meter"><div style="width:${ap}%;background:var(--${lvA})"></div></div></div>`;
         if(!live) return `<div class="row r3"><span><span class="n">${esc(a.name)}</span><span class="m">${esc(a.place)}</span></span><span></span>${infoBtn("area",a.id)}</div>`;
@@ -700,6 +719,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
     else if(d.go){ S.screen = d.go; S.done = false; render(); }
     else if(d.tab){ S.tab = d.tab; render(); }
     else if(d.filter){ S.filter = d.filter; render(); }
+    else if(d.asel !== undefined){ S.asel = d.asel && S.asel !== d.asel ? d.asel : null; keepScroll(render); }
     else if(d.bsel !== undefined){ S.bsel = d.bsel && S.bsel !== d.bsel ? d.bsel : null; keepScroll(render); }
     else if(d.phase){ S.future = d.phase === "future"; render(); }
     else if(d.fav){ S.fav.has(d.fav) ? S.fav.delete(d.fav) : S.fav.add(d.fav); saveFav(); keepScroll(render); }
