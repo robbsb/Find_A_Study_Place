@@ -395,7 +395,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
     const rows = rooms.slice(0, S.future ? 2 : 3).map(r => `<button class="nrow" data-info="room:${r.id}"><span><b>${esc(r.name)}</b><small>${esc(r.bld)} · ${esc(r.floor)}</small></span>${pill(r.reg.pct)}</button>`).join("") +
       (area ? `<button class="nrow" data-info="area:${area.id}"><span><b>${esc(area.name.split(" · ")[1])}</b><small>${esc(area.name.split(" · ")[0])} · ${esc(area.place)}</small></span>${pill(areaPct(area))}</button>` : "") +
       (S.future && lib.pct < 90 ? `<button class="nrow" data-info="lib:${lib.id}"><span><b>Leonardo Library</b><small>${lib.seats} seats</small></span>${pill(lib.pct)}</button>` : "");
-    return `<div class="sec near"><div class="near-h"><h3>${S.future ? "Study places near you" : "Free classrooms near you"}</h3></div>
+    return `<div class="sec near"><div class="near-h"><h3>Study places near you</h3></div>
       <span class="small">Your lecture in ${lb.toLowerCase()} ended at 12:15 · live via Affluences</span>
       ${rows}<button class="nall" data-go="spaces">See all study places ›</button></div>`;
   }
@@ -407,7 +407,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
         <button data-toast="Cards"><span class="c">${ic('<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h4"/>')}</span>Cards</button>
         <button data-toast="Contacts"><span class="c">${ic('<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 7h4v3h-4z"/>')}</span>Contacts</button>
         <button data-toast="WeBeep"><span class="c">${ic('<path d="M12 4v3M8 10h8l-1 3H9zM6 13h12v6H6z"/>')}</span>WeBeep</button>
-        <button data-toast="Webmail"><span class="c">${ic('<rect x="3" y="6" width="18" height="13" rx="2"/><path d="m3 8 9 6 9-6"/>')}</span>Webmail</button>
+        <button data-toast="Hey, don't look at my emails! 🙈"><span class="c">${ic('<rect x="3" y="6" width="18" height="13" rx="2"/><path d="m3 8 9 6 9-6"/>')}</span>Webmail</button>
       </div></div>
       ${nearCard()}
       <div class="sec"><h3>My activities</h3><span class="cap">Upcoming</span>
