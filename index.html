@@ -255,6 +255,12 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
 .day-k{display:flex;gap:12px;font-size:11px;color:var(--gray)}
 .day-k i{display:inline-block;width:10px;height:10px;border-radius:2px;background:#9aa3b5;margin-right:4px;vertical-align:-1px}
 .day-k em{display:inline-block;width:2px;height:10px;background:var(--a-navy);margin-right:5px;vertical-align:-1px}
+.avbtn{all:unset;cursor:pointer;display:block;width:96px;height:96px;border-radius:50%;margin-top:10px}
+.avbtn:focus-visible{outline:2px solid var(--a-blue);outline-offset:3px}
+.warm{transform-box:fill-box;transform-origin:0 0}
+.avbtn.waving .warm{animation:wave 1.6s ease-in-out}
+@keyframes wave{0%{transform:rotate(0)}20%{transform:rotate(-82deg)}35%{transform:rotate(-55deg)}50%{transform:rotate(-85deg)}65%{transform:rotate(-55deg)}80%{transform:rotate(-82deg)}100%{transform:rotate(0)}}
+@media (prefers-reduced-motion: reduce){.avbtn.waving .warm{animation:none}}
 </style>
 
 <div class="wrap">
@@ -401,7 +407,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
   }
   function meView(){
     return `<div class="ghead"><div class="hrow"><h2>Me and Polimi</h2><button class="link" data-toast="Opens Online Services">Online Services ${ic('<path d="M7 17 17 7M8 7h9v9"/>')}</button></div>
-      <div class="avatar" aria-hidden="true" style="background:#F7F4EB;overflow:hidden"><svg viewBox="0 0 96 96" width="96" height="96" fill="none" stroke="#151515" stroke-linecap="round" stroke-linejoin="round"><path d="M48 37 V62 M48 44 L34 55 M48 44 L62 55 M48 62 L38 81 M48 62 L58 81" stroke-width="2.6"/><circle cx="48" cy="24" r="13" fill="#fff" stroke-width="2.6"/><circle cx="43" cy="22.5" r="3.4" fill="#fff" stroke-width="1.6"/><circle cx="53" cy="22.5" r="3.4" fill="#fff" stroke-width="1.6"/><circle cx="43" cy="22.8" r="1.05" fill="#151515" stroke="none"/><circle cx="53" cy="22.8" r="1.05" fill="#151515" stroke="none"/><path d="M43 29.5 Q48 33.5 53 29.5" stroke-width="1.7"/></svg></div>
+      <button class="avatar avbtn" data-wave="1" aria-label="Stick Man, tap to say hi" style="background:#F7F4EB;overflow:hidden"><svg viewBox="0 0 96 96" width="96" height="96" fill="none" stroke="#151515" stroke-linecap="round" stroke-linejoin="round"><path d="M48 37 V62 M48 44 L34 55 M48 62 L38 81 M48 62 L58 81" stroke-width="2.6"/><path class="warm" d="M48 44 L62 55" stroke-width="2.6"/><circle cx="48" cy="24" r="13" fill="#fff" stroke-width="2.6"/><circle cx="43" cy="22.5" r="3.4" fill="#fff" stroke-width="1.6"/><circle cx="53" cy="22.5" r="3.4" fill="#fff" stroke-width="1.6"/><circle cx="43" cy="22.8" r="1.05" fill="#151515" stroke="none"/><circle cx="53" cy="22.8" r="1.05" fill="#151515" stroke="none"/><path d="M43 29.5 Q48 33.5 53 29.5" stroke-width="1.7"/></svg></button>
       <div class="who"><b>Stick Man</b><span>Person code</span><span class="sw">View services as student ${ic('<path d="M20 11a8 8 0 0 0-14-5l-2 2M4 13a8 8 0 0 0 14 5l2-2M4 4v4h4M20 20v-4h-4"/>')}</span></div>
       <div class="circles">
         <button data-toast="Cards"><span class="c">${ic('<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h4"/>')}</span>Cards</button>
@@ -689,6 +695,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
   document.addEventListener("click", e => {
     const el = e.target.closest("button"); if(!el) return;
     const d = el.dataset;
+    if(d.wave){ el.classList.remove("waving"); void el.offsetWidth; el.classList.add("waving"); toast("Hi! 👋"); return; }
     if(d.nav){ if(d.nav === "me" || d.nav === "campus"){ S.screen = d.nav; render(); } else toast("Not part of this concept"); }
     else if(d.go){ S.screen = d.go; S.done = false; render(); }
     else if(d.tab){ S.tab = d.tab; render(); }
