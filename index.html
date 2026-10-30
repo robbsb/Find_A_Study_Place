@@ -487,7 +487,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
       return `<div class="bcard${S.asel === b ? " on" : ""}">
         <button class="bpick" data-asel="${esc(b)}" aria-label="Show study areas in ${esc(b)}">
           <span class="bimg">${buildingArt(b)}<span class="bnum">${esc(num)}</span></span>
-          <span class="bbody"><b>${esc(/^Building/.test(b) ? b : "Building " + b)}</b><small>${as.length} study area${as.length > 1 ? "s" : ""}</small><small>${live ? `${pc}% occupied` : "Listed by Polimi"}</small></span>
+          <span class="bbody"><b>${esc(/^Building/.test(b) ? b : "Building " + b)}</b><small>${as.length} study area${as.length > 1 ? "s" : ""}</small>${live ? `<small>${pc}% occupied</small>` : ""}</span>
           <span class="bbar">${live ? `<i style="width:${pc}%;background:var(--${lv})"></i>` : ""}</span></button>
         <button class="favb bstar" data-fav="${esc(b)}" aria-pressed="${S.fav.has(b)}" aria-label="${S.fav.has(b) ? "Remove from" : "Add to"} favourite buildings">${S.fav.has(b) ? "★" : "☆"}</button></div>`;
     }).join("");
@@ -580,7 +580,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
           <button data-tab="rooms" aria-pressed="${S.tab==="rooms"}">Classrooms</button>
           <button data-tab="libs" aria-pressed="${S.tab==="libs"}">Libraries</button>
           <button data-tab="areas" aria-pressed="${S.tab==="areas"}">Study areas</button></div>
-        ${S.tab === "areas" && !S.future ? `<div class="live">Study spaces listed by Polimi</div>` : S.tab === "areas" ? `<div class="live"><span class="ldot"></span><b>Live</b> via Affluences · all study areas · updated every 5 min</div>` : `<div class="live"><span class="ldot"></span><b>Live</b> via Affluences · ${S.tab === "libs" ? "libraries" : S.future ? "all classrooms" : "classrooms in buildings 11 and 13"} · updated every 5 min</div>`}</div>
+        ${S.tab === "areas" && !S.future ? `<div class="live">Study areas on this campus</div>` : S.tab === "areas" ? `<div class="live"><span class="ldot"></span><b>Live</b> via Affluences · all study areas · updated every 5 min</div>` : `<div class="live"><span class="ldot"></span><b>Live</b> via Affluences · ${S.tab === "libs" ? "libraries" : S.future ? "all classrooms" : "classrooms in buildings 11 and 13"} · updated every 5 min</div>`}</div>
       <div class="list">${body}</div>`;
   }
 
@@ -621,7 +621,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
       const a = areas.find(x => x.id === id);
       title = a.name; sub = a.place;
       const v = S.exam ? a.examLvl : a.lvl; const ap = areaPct(a), al = a.live || S.future; if(al){ widget = affWidget(ap, "Counted at the entrances · updated every 5 min"); } pill = al ? `<span class="st s-${ap >= 90 ? "full" : ap >= 60 ? "mid" : "free"}">${ap}% occupied</span>` : "";
-      facts = yes(true, "Listed by Polimi as a study space") + yes(true, "Wi-Fi") + yes(true, "Open to Polimi students") + yes(false, "Not a quiet area: talking allowed");
+      facts = yes(true, "Wi-Fi") + yes(true, "Open to Polimi students") + yes(false, "Not a quiet area: talking allowed");
     }
     return `<div class="pad"><button class="back" data-go="spaces">‹ Find a study place</button>
       <div class="picwrap">${roomPic(type)}<span class="piccap">Photo</span></div>
