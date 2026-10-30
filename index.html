@@ -472,19 +472,23 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
       <circle cx="22" cy="54" r="14" fill="#5f9a4e"/><circle cx="160" cy="52" r="16" fill="#6aa457"/><rect x="21" y="60" width="3" height="8" fill="#6b4f2a"/><rect x="159" y="60" width="3" height="8" fill="#6b4f2a"/></svg>`;
   }
   function buildingRow(hasSpace){
-    const names = [...new Set(classrooms.filter(r => r.live).map(r => r.bld))]
-      .sort((a, b) => (S.fav.has(b) - S.fav.has(a)) || natural(a, b));
+    const isLiveB = b => classrooms.some(r => r.bld === b && r.live);
+    const names = [...new Set(classrooms.map(r => r.bld))]
+      .sort((a, b) => (S.fav.has(b) - S.fav.has(a)) || (isLiveB(b) - isLiveB(a)) || natural(a, b));
     if(!names.length) return "";
     const cards = names.map(b => {
       const rs = classrooms.filter(r => r.bld === b), free = rs.filter(hasSpace).length;
       const open = rs.filter(r => r.reg.st === "free" && r.reg.pct !== undefined);
       const pc = open.length ? Math.round(open.reduce((t, r) => t + r.reg.pct, 0) / open.length) : 100;
-      const lv = pc >= 90 ? "full" : pc >= 60 ? "mid" : "free", num = b.replace("Building ", "");
+      const lv = pc >= 90 ? "full" : pc >= 60 ? "mid" : "free", num = b.replace("Building ", ""), live = isLiveB(b);
+      const noLesson = rs.filter(r => r.reg.st === "free").length;
       return `<div class="bcard${S.bsel === b ? " on" : ""}">
         <button class="bpick" data-bsel="${esc(b)}" aria-label="Show classrooms in ${esc(b)}">
           <span class="bimg">${buildingArt(b)}<span class="bnum">${esc(num)}</span></span>
-          <span class="bbody"><b>${esc(b)}</b><small>${free ? `${free} rooms with space` : "No rooms with space"}</small><small>${pc}% occupied</small></span>
-          <span class="bbar"><i style="width:${pc}%;background:var(--${lv})"></i></span></button>
+          <span class="bbody"><b>${esc(b)}</b>${live
+            ? `<small>${free ? `${free} rooms with space` : "No rooms with space"}</small><small>${pc}% occupied</small>`
+            : `<small>${noLesson ? `${noLesson} without a lesson` : "All rooms in use"}</small><small>Timetable only</small>`}</span>
+          <span class="bbar">${live ? `<i style="width:${pc}%;background:var(--${lv})"></i>` : ""}</span></button>
         <button class="favb bstar" data-fav="${esc(b)}" aria-pressed="${S.fav.has(b)}" aria-label="${S.fav.has(b) ? "Remove from" : "Add to"} favourite buildings">${S.fav.has(b) ? "★" : "☆"}</button></div>`;
     }).join("");
     return `<div class="brow-h">Buildings</div><div class="brow">${cards}</div>`;
