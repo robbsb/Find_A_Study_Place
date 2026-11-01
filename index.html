@@ -402,7 +402,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
       (area ? `<button class="nrow" data-info="area:${area.id}"><span><b>${esc(area.name.split(" · ")[1])}</b><small>${esc(area.name.split(" · ")[0])} · ${esc(area.place)}</small></span>${pill(areaPct(area))}</button>` : "") +
       (S.future && lib.pct < 90 ? `<button class="nrow" data-info="lib:${lib.id}"><span><b>Leonardo Library</b><small>${lib.seats} seats</small></span>${pill(lib.pct)}</button>` : "");
     return `<div class="sec near"><div class="near-h"><h3>Study places near you</h3></div>
-      <span class="small">Your lecture in ${lb.toLowerCase()} ended at 12:15 · live via Affluences</span>
+      <span class="small">Your lecture in ${lb.toLowerCase()} ended at 12:15</span>
       ${rows}<button class="nall" data-go="spaces">See all study places ›</button></div>`;
   }
   function meView(){
