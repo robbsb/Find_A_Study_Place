@@ -142,6 +142,14 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
 .qr{width:140px;height:140px;margin:4px auto;display:grid;grid-template-columns:repeat(21,1fr);padding:8px;border-radius:10px;border:1px solid var(--a-line)}
 .qr i.on{background:#111}
 .center{text-align:center;align-items:center}
+.intro{position:absolute;inset:0;z-index:20;background:rgba(27,42,78,.45);display:flex;align-items:flex-end;padding:14px 14px 104px}
+.intro-c{background:#fff;border-radius:18px;padding:18px 18px 14px;box-shadow:0 10px 30px rgba(20,30,60,.25);width:100%}
+.intro-c .tag{display:inline-block;font:800 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--a-blue);background:var(--a-blue-soft);border-radius:999px;padding:3px 9px;margin-bottom:8px}
+.intro-c h2{font:800 19px var(--sans);margin:0 0 8px;color:var(--a-ink)}
+.intro-c ul{margin:0 0 14px;padding-left:18px;font-size:14px;line-height:1.45;color:var(--a-ink2)}
+.intro-c li{margin-bottom:4px}
+.intro-c button{all:unset;cursor:pointer;display:block;text-align:center;background:var(--a-navy);color:#fff;font:700 14.5px var(--sans);border-radius:12px;padding:12px;width:100%;box-sizing:border-box}
+.intro-c button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
 .toast{position:absolute;left:14px;right:14px;bottom:96px;background:var(--a-navy);color:#fff;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600}
 
 /* ---------- notes ---------- */
@@ -211,6 +219,16 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
 .nrow:focus-visible{outline:2px solid var(--a-blue)}
 .nrow b{display:block;font-size:14px;text-transform:uppercase}
 .nrow small{font-size:12px;color:var(--gray)}
+.rate{display:grid;gap:8px}
+.rate h3{margin:0;font-size:17px;line-height:1.3}
+.stars{display:flex;gap:6px}
+.stars button{all:unset;cursor:pointer;font-size:30px;line-height:1;color:#c9cfdc;padding:2px}
+.stars button.on{color:#f2b01e}
+.stars button:focus-visible{outline:2px solid var(--a-blue);border-radius:6px}
+.rlab{display:flex;justify-content:space-between;font-size:11.5px;color:var(--a-ink2);max-width:210px}
+.rate textarea{font:14px var(--sans);border:1px solid var(--a-line);border-radius:10px;padding:9px 10px;resize:none;min-height:54px;color:var(--a-ink)}
+.rsend{all:unset;cursor:pointer;justify-self:start;background:var(--a-navy);color:#fff;font:700 13.5px var(--sans);border-radius:10px;padding:9px 18px}
+.rthanks{font-size:14px;font-weight:600;color:var(--a-ink)}
 .nall{all:unset;cursor:pointer;font-size:13px;font-weight:600;color:var(--a-blue);justify-self:start}
 .ghd{display:flex;justify-content:space-between;align-items:center}
 .favb{all:unset;cursor:pointer;font-size:16px;line-height:1;color:#b07806;padding:0 2px}
@@ -219,6 +237,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
 .phase{display:flex;gap:4px;padding:4px;border-radius:999px;background:#e3e7ef}
 .phase button{all:unset;cursor:pointer;font:600 12.5px var(--sans);padding:7px 14px;border-radius:999px;color:#4a5a7a}
 .phase button[aria-pressed="true"]{background:#fff;color:#1c2340;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.phase .sx{display:none}
 .phase button:focus-visible{outline:2px solid var(--a-blue)}
 @media (max-width:520px){
   body{padding:0!important}
@@ -226,6 +245,14 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
   .phone{width:100%;padding:0;border-radius:0;box-shadow:none;background:none}
   .screen{border-radius:0;height:100vh;height:100dvh}
   .sbar{display:none}
+  .phase{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(86px + env(safe-area-inset-bottom));z-index:30;box-shadow:0 4px 14px rgba(20,30,60,.22);background:#e3e7ef}
+  .phase .lx{display:none}
+  .phase .sx{display:inline}
+  .phase{white-space:nowrap}
+  .phase button{padding:7px 13px}
+  .view{padding-bottom:56px}
+  .toast{bottom:136px}
+  .intro{padding-bottom:140px}
 }
 .brow-h{font:800 11px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--a-ink2);margin:4px 0 6px}
 .brow{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 10px;scroll-snap-type:x mandatory;margin:0 -16px;padding-left:16px;padding-right:16px}
@@ -289,7 +316,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
       </div>
     </div>
 
-    <div class="phase" id="phase" role="group" aria-label="Show the app"><button data-phase="pilot" aria-pressed="true">Pilot: buildings 11 and 13</button><button data-phase="future" aria-pressed="false">Future: all campuses</button></div>
+    <div class="phase" id="phase" role="group" aria-label="Show the app"><button data-phase="pilot" aria-pressed="true">Pilot<span class="lx">: buildings 11 and 13</span><span class="sx"> · buildings 11 &amp; 13</span></button><button data-phase="future" aria-pressed="false">Future<span class="lx">: all campuses</span><span class="sx"> · all campuses</span></button></div>
     <p class="capline">Concept prototype · example data · not an official Polimi service</p>
     <aside class="notes" aria-live="polite">
       <div class="ctl"><span class="lab">Jump to</span><div class="jump" id="jump"></div></div>
@@ -405,6 +432,21 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
       <span class="small">Your lecture in ${lb.toLowerCase()} ended at 12:15</span>
       ${rows}<button class="nall" data-go="spaces">See all study places ›</button></div>`;
   }
+  const FORM = "https://docs.google.com/forms/d/e/1FAIpQLScctm-5n0coX87DzdyyBonFcsLqHCXo-DdEyiOkR10xvSOK1Q/formResponse";
+  function rateCard(){
+    if(S.rated) return `<div class="sec rate"><h3>How useful is Find a study place?</h3><span class="rthanks">Thanks for your feedback! 🙌</span></div>`;
+    const st = [1,2,3,4,5].map(n => `<button data-rate="${n}" class="${n <= (S.rate||0) ? "on" : ""}" aria-label="${n} of 5">★</button>`).join("");
+    return `<div class="sec rate"><h3>How useful is Find a study place?</h3>
+      <div><div class="stars">${st}</div><div class="rlab"><span>Not useful</span><span>Very useful</span></div></div>
+      ${S.rate ? `<textarea id="rtext" placeholder="What would you change? (optional)" aria-label="What would you change? (optional)">${esc(S.rtext||"")}</textarea><button class="rsend" data-rsend="1">Send</button>` : ""}</div>`;
+  }
+  function sendRating(){
+    try {
+      const f = new URLSearchParams(); f.append("entry.1673604973", String(S.rate)); f.append("entry.1424739860", S.rtext || "");
+      fetch(FORM, {method:"POST", mode:"no-cors", body:f}).catch(() => {});
+    } catch(e){}
+    S.rated = true;
+  }
   function meView(){
     return `<div class="ghead"><div class="hrow"><h2>Me and Polimi</h2><button class="link" data-toast="Opens Online Services">Online Services ${ic('<path d="M7 17 17 7M8 7h9v9"/>')}</button></div>
       <button class="avatar avbtn" data-wave="1" aria-label="Stick Man, tap to say hi" style="background:#F7F4EB;overflow:hidden"><svg viewBox="0 0 96 96" width="96" height="96" fill="none" stroke="#151515" stroke-linecap="round" stroke-linejoin="round"><path d="M48 37 V62 M48 44 L34 55 M48 62 L38 81 M48 62 L58 81" stroke-width="2.6"/><path class="warm" d="M48 44 L62 55" stroke-width="2.6"/><circle cx="48" cy="24" r="13" fill="#fff" stroke-width="2.6"/><circle cx="43" cy="22.5" r="3.4" fill="#fff" stroke-width="1.6"/><circle cx="53" cy="22.5" r="3.4" fill="#fff" stroke-width="1.6"/><circle cx="43" cy="22.8" r="1.05" fill="#151515" stroke="none"/><circle cx="53" cy="22.8" r="1.05" fill="#151515" stroke="none"/><path d="M43 29.5 Q48 33.5 53 29.5" stroke-width="1.7"/></svg></button>
@@ -416,6 +458,7 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
         <button data-toast="Hey, don't look at my emails! 🙈"><span class="c">${ic('<rect x="3" y="6" width="18" height="13" rx="2"/><path d="m3 8 9 6 9-6"/>')}</span>Webmail</button>
       </div></div>
       ${nearCard()}
+      ${rateCard()}
       <div class="sec"><h3>My activities</h3><span class="cap">Upcoming</span>
         <div class="line"><span class="bigline">${ic('<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v18"/>').replace('<svg','<svg width="20" height="20"')}MEMS and Microsensors</span>${arrow}</div>
         <span class="small" style="color:var(--a-ink)">OCT | TUE 20 | 14:15 - 16:15</span></div>
@@ -714,8 +757,11 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
   document.addEventListener("click", e => {
     const el = e.target.closest("button"); if(!el) return;
     const d = el.dataset;
+    if(d.rate){ S.rate = +d.rate; keepScroll(render); const t = document.getElementById("rtext"); if(t) t.focus({preventScroll:true}); return; }
+    if(d.rsend){ sendRating(); keepScroll(render); return; }
+    if("intro" in d){ const o = document.querySelector(".intro"); if(o) o.remove(); return; }
     if(d.wave){ el.classList.remove("waving"); void el.offsetWidth; el.classList.add("waving"); toast("Hi! 👋"); return; }
-    if(d.nav){ if(d.nav === "me" || d.nav === "campus"){ S.screen = d.nav; render(); } else toast("Not part of this concept"); }
+    if(d.nav){ if(d.nav === "me" || d.nav === "campus"){ S.screen = d.nav; render(); if(d.nav === "me") showIntro(); } else toast("Not part of this concept"); }
     else if(d.go){ S.screen = d.go; S.done = false; render(); }
     else if(d.tab){ S.tab = d.tab; render(); }
     else if(d.filter){ S.filter = d.filter; render(); }
@@ -740,10 +786,18 @@ button:focus-visible{outline:2px solid var(--a-blue);outline-offset:2px}
   });
   document.addEventListener("change", e => { if(e.target.id === "campus"){ S.campus = e.target.value; S.q = ""; S.filter = "All"; render(); } });
   document.addEventListener("input", e => {
+    if(e.target.id === "rtext"){ S.rtext = e.target.value; return; }
     if(e.target.id !== "q") return;
     S.q = e.target.value; render();
     const q = document.getElementById("q"); if(q){ q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
   });
   render();
+  function showIntro(){
+    const prev = document.querySelector(".intro"); if(prev) prev.remove();
+    const o = document.createElement("div"); o.className = "intro"; o.setAttribute("role","dialog"); o.setAttribute("aria-label","New feature");
+    o.innerHTML = `<div class="intro-c"><span class="tag">New</span><h2>Find a study place</h2><ul><li>See how full classrooms are right now, not just whether there is a lesson.</li><li>Study places near your last lecture are shown right here on the start page.</li><li>You can also find all of them under <b>Campus</b> → <b>Find a study place</b>.</li><li>Star your favourite buildings to see them first.</li></ul><button data-intro="1">Got it</button></div>`;
+    $("#screen").appendChild(o);
+  }
+  showIntro();
 })();
 </script>
